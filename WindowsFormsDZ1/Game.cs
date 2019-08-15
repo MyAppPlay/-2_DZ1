@@ -4,6 +4,7 @@ using System.Drawing;
 /// <summary>
 /// Гаврилов В. А.
 /// </summary> 
+/// 
 namespace Asteroids
 {
     class Game
