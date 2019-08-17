@@ -15,10 +15,17 @@ namespace Asteroids
         // Ширина и высота игрового поля
         public static int Width { get; set; }
         public static int Height { get; set; }
+        public static Image cosmos;
 
+        private static Bullet _bullet;
+        private static Asteroid[] _asteroids;
+        private static Fire[] _fires;
+        public static BaseObject[] _objs;
+        private static Star[] _stars;
 
         static Game()
         {
+            
         }
         public static void Init(Form form)
         {
@@ -34,6 +41,8 @@ namespace Asteroids
 
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
+            cosmos = Image.FromFile("cosmos.jpg");
+            
 
            Load();
 
@@ -47,7 +56,6 @@ namespace Asteroids
             Draw();
             Update();
         }
-        public static BaseObject[] _objs;
         public static void Update()
         {
             foreach (BaseObject obj in _objs)
@@ -61,66 +69,49 @@ namespace Asteroids
             //Buffer.Graphics.FillEllipse(Brushes.Red, new Rectangle(100, 100, 150, 150));
             //Buffer.Render();
 
-            Buffer.Graphics.Clear(Color.Black);
-            Buffer.Graphics.DrawImage(Image.FromFile(@"C:\Users\00000\source\repos\WindowsFormsDZ1\WindowsFormsDZ1\cosmos.jpg"), 0, 0, Game.Width, Game.Height); 
+            //Buffer.Graphics.Clear(Color.Black);
+            Buffer.Graphics.DrawImage(cosmos, 0, 0, Game.Width, Game.Height);
 
             foreach (BaseObject obj in _objs)
             {
                 obj.Draw();
             }
-            
-                Buffer.Render();
+            Buffer.Render();
         }
 
 
         public static void Load()
         {
-            int a = 5;       //Переменная для определения координаты 
-            int b = 5;
+            //int b = 5;
             Random rand = new Random();
+            _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(4, 1));
+            _fires = new Fire[10];
+            _asteroids = new Asteroid[3];
+            _stars = new Star[100];
+            _objs = new BaseObject[40];
 
-            
-                _objs = new BaseObject[40];
-            for (int i = 0; i < _objs.Length/2; i++)
+            for (int i = 0; i < _objs.Length; i++)
             {
-                if (i % 2 == 0)
-                {
-                    int c = rand.Next(Game.Height); //Случайные координаты
-                    int d = rand.Next(Game.Width);
-
-                    _objs[i] = new BaseObject(new Point(d, c), new Point(-i + 5, -i + 3), new Size(50, 50));
-                    b += Game.Width / (_objs.Length / 2);
-                }
-                else
-                {
-            int c = rand.Next(Game.Height); //Случайные координаты
-            int d = rand.Next(Game.Width);
-
-                    _objs[i] = new Fire(new Point(600, b), new Point(c/a/2, i), new Size(20, 20));
-                }
-
+                int r = rand.Next(5, 50);
+                _objs[i] = new Star(new Point(1000, rand.Next(0, Height)), new Point(-r, r), new Size(5, 5));
+                //_objs[i] = new Asteroid(new Point(1000, rand.Next(0, Height)), new Point(-r, r), new Size(50, 50));
             }
-            for (int i = _objs.Length / 2; i < _objs.Length; i++)
+            for (int a = 0; a < _asteroids.Length; a++)
             {
-                int c = rand.Next(Game.Height); //Случайные координаты
-                int d = rand.Next(Game.Width);
-                if (i % 2 == 0)
-                {
-                    _objs[i] = new Star(new Point(c, i+a), new Point(-i + c / 100, 0), new Size(10, 10));
-                    a += Game.Width / (_objs.Length / 2);
-                }
-                else if(i==_objs.Length-1)
-                {
-                    
-                 _objs[i] = new Corabl(new Point(100, Game.Height/2), new Point(1, 0), new Size(150, 50));
-
-                }
-                 else   _objs[i] = new Star(new Point(d, c), new Point(-i + c / 50, 0), new Size(15, 15));
-
+                int c = rand.Next(5, 50);
+                _asteroids[a] = new Asteroid(new Point(1000, rand.Next(0, Height)), new Point(-1, 1), new Size(50, 50));
             }
+            //for (int i = 0; i < _fires.Length; i++)
+            //{
+            //    _fires[i] = new Fire(new Point(1000, rand.Next(0, Height)), new Point(-1, 1), new Size(100, 100));
+            //}
+            //for(int i = 0; i < _stars.Length;i++)
+            //{
+            //    new Star(new Point(1000, rand.Next(0, Height)), new Point(-1, 1), new Size(5, 5));
+            //}
 
 
         }
-        
+
     }
 }

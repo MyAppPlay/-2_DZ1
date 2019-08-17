@@ -72,12 +72,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="asteroid50.png" />
-    <Content Include="corabl100.png" />
-    <Content Include="cosmos.jpg" />
-    <Content Include="fire50.png" />
-    <Content Include="star50.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
